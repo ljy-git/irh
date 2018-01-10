@@ -1,0 +1,18 @@
+#app>*{display: none;}
+#app>.print_cont{
+	display: block !important;
+	table{width: 100%; background-color: #fff;}
+	caption{font-size: 18px; line-height: 160%;}
+	th,td{padding:.15rem .1rem; vertical-align: top; border-bottom: 1px #eee solid; line-height: 140%;}
+	th{text-align: right; white-space: nowrap;padding-right: 0.3rem; }
+	td{color: #666;}
+	.cont th{width: 2rem;}
+	.list{width: 100%; background-color: #fff; border-top: 4px #ccc solid;border-bottom: 4px #ccc solid; margin: .2rem 0px;
+		th,td{text-align: left;}
+		th{border-bottom: 1px #ccc solid;}
+		.pic{width: 1.4rem; height: 1.4rem; margin-right: .2rem;}
+		li{
+			padding: .1rem;display: flex; border-bottom: 1px #eee solid; margin-bottom: .1rem;
+		}
+	}
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>设置作业</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+              <nav class="layout_head" >
+                  <a class="left" href="main.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+                  <h1>设置作业</h1>
+                  <aa href="p2_1.html" class="right"><i class='iconfont icon-nav_xinzeng'></i></aa>
+                </nav>
+
+              <div  class="layout_body scroll">
+                  <du_list 
+                    url="/MyHomeWork/GetHomeWorkList"
+                    class="list_p7" name="设置作业" ref="list1">
+                      
+                      <li slot="item" slot-scope="props" @click="">
+                        <div class="tit"><h2>{{props.item_data.ProjectName}}</h2></div>
+                        <div class="cont">
+                          <p><b>作业时间:</b>{{ props.item_data.BeginTime}}~{{ props.item_data.EndTime}}</p>
+                          <p><b>执行周期:</b>{{ props.item_data.BeginDate }}~{{ props.item_data.EndDate }}</p>
+                          <p><b>备　　注:</b>{{ props.item_data.Remark }}</p>
+                        </div>
+                        
+                        <div class="btns">
+                          <a :href=" 'p7_2.html?WorkId='+props.item_data.WorkId" class="btn_sm"><i class='iconfont icon-coordinates'></i> 编辑</a>
+                          <a href="#" class="btn_sm" @click="dele(props.item_data.WorkId)"><i class='iconfont icon-coordinates'></i> 删除</a>
+                        </div>
+                      </li>
+                      
+                  </du_list>
+              </div>
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {},
+  methods:{
+    dele:function(id){
+      var _this = this;
+      post( "/MyHomeWork/DeleteHomeWork",{"workId":id} )
+      .then(
+          this.$dialog.toast({
+            mes: "删除成功!",
+            icon: 'success',
+            timeout: 1000,
+            callback: function () {
+              _this.$refs.list1.init();
+            }
+          })
+      );
+    }
+  },
+  data: {}
+});
+   
+</script>

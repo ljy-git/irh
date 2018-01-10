@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>新增门诊病历</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+              <nav class="layout_head" >
+                <a class="left" href="t8.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+                <h1>新增门诊病历</h1>
+                <div class="right" @click="form_submit">保存</div>
+              </nav>
+
+              <div class="layout_body scroll">
+                
+                <div class="du_user">
+                  <div class="pic" style="background-image: url(images/user.jpg);"></div>
+                  <div class="tit">
+                    <h1>张大生</h1>
+                    <h2>门诊号:2354435</h2>
+                  </div>
+                  <a class="right" href="p14.html">病人详情<i class='iconfont icon-jiantou-you'></i></a>
+                </div>
+
+                <div class="du_form">
+                  <div class="cut"></div>
+                  <dl> 
+                    <dd>
+                      <label>治疗病种</label>
+                      <du_demand_names :str_vals.sync='my.SDemandIds'></du_demand_names>
+                    </dd>
+
+                    <dd>
+                      <label>病历原始号</label>
+                      <yd-input v-model="my.FK_RecordID" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>IRH扫描件编号</label>
+                      <yd-input v-model="my.FK_FromID" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>医院</label>
+                      <yd-input v-model="my.Hospital" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>科室</label>
+                      <yd-input v-model="my.CheckDep" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>主治医生</label>
+                      <yd-input v-model="my.AttDoctor" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>门诊日期<sup>*</sup></label>
+                      <yd-datetime type="date" v-model="my.OutpatientDate"></yd-datetime>
+                    </dd>
+                    
+                    <dd class="cut"></dd>
+                    
+                    <dd>
+                      <label>主述</label>
+                      <yd-input v-model="my.TopicComment" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>病史</label>
+                      <yd-input v-model="my.MedicalHistory" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>体检</label>
+                      <yd-input v-model="my.PyExamination" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>实验室及特殊检查</label>
+                      <yd-input v-model="my.LabSpIinspection" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>初步诊断</label>
+                      <yd-input v-model="my.TenDiagnosis" placeholder="请输入"></yd-input>
+                    </dd>
+                    
+                    <dd>
+                      <label>处理意见</label>
+                      <yd-input v-model="my.Suggestion" placeholder="请输入"></yd-input>
+                    </dd>
+
+                    <dd class="cut"></dd>
+
+                    <dd>
+                      <label>上传附件</label>
+                      <el-upload
+                        :action="root+ '/OM/UploadFile/AttachUpload' "
+                        multiple
+                        :limit="10"
+                        :on-success="successH">
+                        <el-button size="small" type="primary">上传</el-button>
+                      </el-upload>
+                    </dd>
+                                     
+
+                  </dl>
+                </div>
+              </div>
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {
+    this.$root.loading(false);
+    /*post("SeeDoctor/GetMedicalRecord",{id:getQS("PK_ID")})
+      .then(
+
+          function (res) {
+              this.my = res;
+          }.bind(this)
+      );*/
+  },
+  methods:{
+    successH:function(res, file, fileList) {
+      /*console.log(file);
+      console.log(fileList);*/
+      
+    },
+    form_submit:function() {
+      console.log(this.my);
+      post("CaseHistory/EditOutpatient",this.my)
+      .then(
+
+          function (res) {
+              this.$dialog.toast({
+                mes: "编辑成功",
+                icon: "success",
+                timeout: 2000,
+                callback:function () {
+                  window.location.href="p8_5.html?id="+getQS("id");
+                }
+              });
+          }.bind(this)
+      );
+    }
+  },
+  data: {
+    root:ROOT,
+    PlaceId_option:[
+      {lab:"居家",val:1},
+      {lab:"住院",val:2},
+      {lab:"门诊",val:3}
+    ],
+    bIsComplete_option:[
+      {lab:"已完成",val:true},
+      {lab:"未完成",val:false}
+    ],
+    my:{
+      "TopicComment": "",
+        "MedicalHistory": "",
+        "PyExamination": "",
+        "LabSpIinspection": "",
+        "TenDiagnosis": "",
+        "Suggestion": "",
+        "FK_RecordID": getQS("id"),
+        "SDemandIds": "",
+        "PlaceId": "3", //int,场所id,1居家 2住院 3门诊,必填
+        "FK_CustID": "0",
+        "OutpatientDate": MMD,
+        "OutpatientNo": "",
+        "Hospital": "KKK"+ _.random(0, 999),
+        "CheckDep": "",
+        // "PK_ID": "", 这里为空才是新增
+        "FK_RID": "",
+        "sNO": "1212",
+        "AttDoctor": "KKK"
+    }
+  }
+});
+   
+</script>

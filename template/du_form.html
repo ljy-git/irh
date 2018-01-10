@@ -1,0 +1,13 @@
+<div class="du_form">
+  <dl class="wide p30">
+    <dd v-for="item in my.Fields">
+      <label>{{item.FieldName}}</label>
+      <yd-input v-model="item.FieldValue" placeholder="请输入" v-if="item.FieldType=='textbox'||item.FieldType=='textarea'"></yd-input>
+      <yd-datetime type="time" v-model="item.FieldValue" v-if="item.FieldType=='time'"></yd-datetime>
+      <yd-datetime type="date" v-model="item.FieldValue" v-if="item.FieldType=='calendar'"></yd-datetime>
+      <el-select v-model="item.FieldValue" placeholder="请选择" v-if="item.FieldType=='radio'">
+          <el-option v-for="iii in item.OptionList" :key="iii.OptionValue" :label="iii.OptionName" :value="iii.OptionValue"> </el-option>
+      </el-select>
+    </dd>
+  </dl>
+</div>

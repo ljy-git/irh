@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>文件列表</title>
+    <style>
+    body{padding: 10px;}
+    table{ border-collapse: collapse; width: 100%; border: 1px #ccc solid;}
+    td,th{border: 1px #ccc solid; padding:10px 5px; font-size: 12px;}
+    td a{color: #666;}
+    td:nth-child(1),td:nth-child(2){white-space: nowrap;}
+    td.cut{height: 10px; padding: 0; background-color: #ccc;}
+
+    tr.sub td{ background-color: #eee; }
+    tr.sub td:first-child{ padding-left: 2em; }
+    </style>
+  </head>
+  <body>
+    <h1>IRH项目页面列表</h1>
+      <div id="app">
+        <h4>命名规则：p字头为原型图“首页”,t字头为原型图“数据录入”从属的页面,my为原型图“我”从属页面,know为知识库,其它按英文字面义</h4>
+        <table v-cloak>
+          <tr>
+            <th>描述</th>
+            <th>链接</th>
+            <th>备注</th>
+          </tr>
+          <tr v-for="item in list" :class=" {'sub':item.sub} ">
+            <template v-if="!item.cut">
+              <td>{{item.tit}}</td>
+              <td><a :href="item.url">{{item.url}}</a></td>
+              <td>{{item.mark}}</td>
+            </template>
+
+            <template v-if="item.cut">
+              <td colspan="3" class="cut"></td>
+            </template>
+          </tr>
+        </table>
+        
+
+      </div>
+  </body>
+</html>
+
+<script src="plugins/vue2.js"></script>
+<script>
+    var vm = new Vue({
+      el: '#app',
+      methods: {
+          ddd:function(){} },
+      data: {
+        list:[
+            {tit:"首页",url:"main.html",mark:""},
+            {tit:"--------",cut:1},
+            {tit:"每日作业",url:"p2.html",mark:""},
+            {tit:"每日作业新增",url:"p2_1.html",mark:""},
+            {tit:"--------",cut:1},
+            {tit:"设置作业",url:"p7.html",mark:""},
+            {tit:"编辑作业",url:"p7_2.html",mark:""},
+            {tit:"--------",cut:1},
+            {tit:"数据录入--就医记录",url:"t8.html",mark:""},
+            {tit:"新增就医记录",url:"t8_2.html",mark:""},
+            {tit:"编辑就医记录",url:"t8_3.html",mark:""},
+            {tit:"病历列表",url:"t8_5.html?id=28",mark:""},
+            {tit:"新增门诊病历",url:"t8_7_1.html?id=28",mark:""},
+            {tit:"--------",cut:1},
+            {tit:"知识库首页",url:"know.html",mark:""},
+            {tit:"知识库列表",url:"know_list.html",mark:""},
+            {tit:"--------",cut:1},
+            {tit:"我",url:"my.html",mark:""},
+            {tit:"我_健康档案",url:"my14_1.html",mark:"ljy"},
+            {tit:"登录",url:"login.html",mark:""},
+            {tit:"我的信息",url:"my_info.html",mark:""},
+            {tit:"--------",cut:1},
+            {tit:"健康预报",url:"p5.html",mark:""},
+            {tit:"健康自诊",url:"p8.html",mark:""},
+            {tit:"--------",cut:1},
+            {tit:"健康日记",url:"p3.html",mark:"ljy"},
+            {tit:"健康日记新增",url:"p3_1.html",mark:"ljy"},
+            {tit:"健康日记详情",url:"p3_2.html",mark:"ljy"},
+            {tit:"健康预报详情",url:"p5_1.html",mark:"ljy"},
+            {tit:"健康自诊",url:"p8_2.html",mark:"ljy"},
+            {tit:"--------",cut:1},
+            {tit:"我的信息",url:"my11_3.html",mark:"ljy"},
+          ]
+        }
+    });
+
+</script>

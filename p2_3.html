@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>作业详情</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+              <nav class="layout_head" >
+                <a class="left" href="p2.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+                <h1>IRH</h1>
+                <div class="right" @click.native="form_submit">保存</div>
+              </nav>
+
+              <div class="layout_body scroll">
+                <div class="du_form">
+                  <dl class="wide">
+                    <div class="cut"></div>
+                    <dd v-for="item in my.Fields">
+                      <label>{{item.FieldName}}</label>
+                      <yd-input v-model="item.FieldValue" placeholder="请输入" v-if="item.FieldType=='textbox'||item.FieldType=='textarea'"></yd-input>
+                      <yd-datetime type="time" v-model="item.FieldValue" v-if="item.FieldType=='time'"></yd-datetime>
+                      <yd-datetime type="date" v-model="item.FieldValue" v-if="item.FieldType=='calendar'"></yd-datetime>
+                      <el-select v-model="item.FieldValue" placeholder="请选择" v-if="item.FieldType=='radio'">
+                          <el-option v-for="iii in item.OptionList" :key="iii.OptionValue" :label="iii.OptionName" :value="iii.OptionValue"> </el-option>
+                      </el-select>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+          </section>
+          
+          
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {
+    post("MyHomeWork/GetHomeWorkFormFieldList",this.qs)
+    .then(
+        function (res) {
+            this.my = res;
+            this.loading(false);
+        }.bind(this)
+    );
+  },
+  methods:{
+    form_submit:function() {
+      post("/MyHomeWork/SaveHomeWorkData",this.my)
+      .then(
+
+          function (res) {
+              this.$dialog.toast({
+                mes: "保存作业成功",
+                icon: "success",
+                timeout: 2000,
+                callback:function () {
+                  window.location.href="p2.html";
+                }
+              });
+          }.bind(this)
+      );
+    }
+  },
+  data: {
+    qs:{
+      "WorkId": getQS("WorkId"),
+       "ProjectId": getQS("ProjectId"),
+       "date": getQS("date"),
+       "FormCode": getQS("FormCode")
+    },
+    my:{}
+  }
+});
+   
+</script>

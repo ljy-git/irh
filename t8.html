@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>数据录入</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+              <nav class="layout_head" >
+                  <a class="left" href="main.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+                  <h1>数据录入</h1>
+                  <a href="t8_2.html" class="right"><i class='iconfont icon-nav_xinzeng'></i></a>
+                </nav>
+              <div class="layout_nav">
+                  <div class="x_tab">
+                      <a href="t8.html" class="on">就医记录</a>
+                      <a href="p10.html">仪器设备</a>
+                      <a href="p11.html">药品食品</a>
+                  </div>
+              </div>
+              <yd-search class="layout_search" v-model="search_key" :on-submit="searchH" placeholder="搜索住院/门诊号"></yd-search>
+              <div  class="layout_body scroll">
+                  <du_list_post
+                    url="/SeeDoctor/GetMedicalRecordList"
+                    :api_para="para"
+                    class="list_p8" name="就医记录列表" ref="list1">
+                      <li slot="item" slot-scope="props" @click="">
+                        <div class="tit">
+                          <div class="left">
+                            <div class="type" :class=" 'type'+props.item_data.iType">{{props.item_data.sType}}</div><h2>{{props.item_data.sDemandName}}</h2>
+                          </div>
+                          <div class="btns">
+                            <a :href=" 't8_3.html?PK_ID='+props.item_data.PK_ID" class="btn_sm">编辑</a>
+                            <a href="#" class="btn_sm" @click="dele(props.item_data.PK_ID)">删除</a>
+                          </div>
+                        </div>
+                        <div class="cont">
+                          <p>{{props.item_data.PK_ID}}</p>
+                          <p>住院门诊号:{{ props.item_data.sNO }}</p>
+                          <p>医院/诊所:{{ props.item_data.sHospital }}</p>
+                          <p>日期:{{ props.item_data.sStartDate}}</p>
+                        </div>
+                        <div class="branch">
+                          <a :href=" 'p8_5.html?id=' + props.item_data.PK_ID">病历({{props.item_data.blc}})</a>
+                          <a :href=" 'p8_8.html?id=' + props.item_data.PK_ID">检查({{props.item_data.jcc}})</a>
+                          <a :href=" 'p8_10.html?id=' + props.item_data.PK_ID">处方({{props.item_data.cfc}})</a>
+                        </div>
+                        
+                      </li>
+                  </du_list_post>
+              </div>
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {},
+  methods:{
+    searchH:function(txt) {
+    },
+
+    dele:function(id){
+      var _this = this;
+      post( "SeeDoctor/DeleteMedicalRecord",{"recordId":id} )
+      .then(
+          this.$dialog.toast({
+            mes: "删除成功!",
+            icon: 'success',
+            timeout: 1000,
+            callback: function () {
+              _this.$refs.list1.init();
+            }
+          })
+      );
+    }
+  },
+  data: {
+    current_tab:0,
+    search_key:"",
+    para:{
+      "typeId": 0,
+      "pageSize": "10"
+    }
+  }
+});
+   
+</script>

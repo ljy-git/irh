@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>知识库</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+  </head>
+    <body>
+        <loading></loading>
+
+        <div id="app" v-cloak>
+          
+          <section class="layout">
+            <nav class="layout_head" >
+              <a class="left" href="main.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+              <h1>知识库</h1>
+              <div class="right"></div>
+            </nav>
+
+            <yd-search class="layout_search" v-model="search_key" :on-submit="searchH" placeholder="搜索"></yd-search>
+
+            <div class="layout_nav" style="height: 2.4rem;">
+              
+                  <div class="grid3">
+                        <a href="know_list.html">
+                          <svg class="icon" aria-hidden="true">
+                              <use xlink:href="#icon-zhishiku-shenghuochangshi"></use>
+                          </svg>
+                        生活常识</a>
+                        <a href="know_list.html">
+                          <svg class="icon" aria-hidden="true">
+                              <use xlink:href="#icon-zhishiku-yaopinqixie"></use>
+                          </svg>
+                        药品器械</a>
+                        <a href="know_list.html">
+                          <svg class="icon" aria-hidden="true">
+                              <use xlink:href="#icon-zhishiku-yixuezhishi"></use>
+                          </svg>
+                        医学知识</a>
+                  </div>
+                  <div class="h20"></div>
+                  <div class="y_tab">
+                      <a href="t8.html" class="on">健康资讯</a>
+                      <div class="cut"></div>
+                      <a href="p10.html">我的收藏</a>
+                  </div>
+            </div>
+
+            <div class="layout_body scroll">
+                <du_list_post
+                  url="CaseHistory/GetMedicalRecordDataList"
+                  :test="test_arr"
+                  class="list_pic" name="就医记录列表" ref="list1">
+                    <li slot="item" slot-scope="props">
+                      <aa href="know_detail.html" :obj="{id:props.item_data.id}">
+                        <div class="pic" :style="{backgroundImage: 'url(' + props.item_data.pic + ')'}"></div>
+                        <div class="cont">
+                          <h2>{{ props.item_data.tit }}</h2>
+                          <h3>{{ props.item_data.date }}</h3>
+                        </div>
+                      </aa>
+                      
+                    </li>
+                </du_list_post>
+            </div>
+            
+            
+            
+            <nav2 current="2"></nav2>
+            
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/iconfont.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {
+    // this.loading(false);
+  },
+  methods:{
+    searchH:function(txt) {
+    }
+  },
+  data: {
+    test_arr:[
+        {id:1,pic:"images/a1.png",tit:"血压，到底该量左手还是右手？出现这个问题要小心了",date:"2017-12-12"},
+        {id:2,pic:"images/a1.png",tit:"这是另一个句子",date:"2017-12-12"},
+        {id:3,pic:"images/a2.png",tit:"这是另一个句子",date:"2017-12-12"},
+        {id:1,pic:"images/a3.png",tit:"这是另一个句子",date:"2017-12-12"},
+        {id:1,pic:"images/a2.png",tit:"这是另一个句子",date:"2017-12-12"},
+        {id:1,pic:"images/a1.png",tit:"血压，到底该量左手还是右手？出现这个问题要小心了",date:"2017-12-12"},
+        {id:1,pic:"images/a1.png",tit:"血压，到底该量左手还是右手？出现这个问题要小心了",date:"2017-12-12"}
+    ]
+  }
+});
+   
+</script>

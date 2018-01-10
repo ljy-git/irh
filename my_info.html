@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>我的信息</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+    <link rel="stylesheet" href="css/zh.css" media="screen">
+  </head>
+    <body>
+        <!-- <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div> -->
+
+        <div id="app" v-cloak>
+          <section class="layout">
+              <nav class="layout_head" >
+                <a class="left" href="login.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+                <h1>我的信息</h1>
+                <a href="#" class="right"><p @click="saveInfo" class="regp">保存</p></a>
+              </nav>
+              <div class="layout_body scroll">
+                <div class="my_head info_head">
+                  <div class="tit">
+                    <div class="pic" :style="{backgroundImage: 'url(' + myinfo.pic + ')'}"></div>
+                    <h2>{{myinfo.nickname}}</h2>
+                  </div>
+                </div>
+                <div class="du_form">
+                  <div class="cut"></div>
+                  <dl class="wide">
+                    <dd>
+                      <label>昵称</label>
+                      <yd-input v-model="myinfo.nickname" placeholder="请输入"></yd-input>
+                    </dd>
+                    <dd>
+                      <label>姓名</label>
+                      <yd-input v-model="myinfo.name" placeholder="请输入"></yd-input>
+                    </dd>
+                    <dd>
+                      <label class="label_tit">性别</label>
+                      <yd-actionsheet :items="sexlist" v-model="showSex" cancel="取消"></yd-actionsheet>
+                      <div class="chose_btn" @click="showSex = true">{{myinfo.sex}}</div>
+                    </dd>
+                    <dd>
+                      <label>生日</label>
+                      <yd-datetime type="date" v-model="myinfo.birthday" start-year="1900" end-year="2017"></yd-datetime>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="du_form ">
+                  <div class="cut"></div>
+                  <dl class="wide">
+                    <dd>
+                      <label>电话</label>
+                      <yd-input v-model="myinfo.phone" placeholder="请输入"></yd-input>
+                    </dd>
+                    <dd>
+                      <label class="label_tit">所属地</label>
+                      <yd-cityselect v-model="showArea" :callback="resultArea" :items="district"></yd-cityselect>
+                      <div class="chose_btn" @click="showArea = true">{{myinfo.area}}</div>
+                    </dd>
+                    <dd>
+                      <label>详细地址</label>
+                      <yd-input v-model="myinfo.address" placeholder="请输入"></yd-input>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script src="js/gov_province_city_area_id.js"></script>
+<script>
+/*var District = require('js/gov_province_city_area_id');*/
+var MyInfo = {
+  pic: 'images/user.jpg',
+  nickname:'Anslily',
+  name:'',
+  birthday:'',
+  phone: '',
+  address: '',
+  sex: '请选择',
+  area: '请选择'
+};
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {
+    console.log(window.YDUI_DISTRICT);
+  },
+  methods:{
+    resultArea: function (ret) {
+      this.myinfo.area = ret.itemName1 + ' ' + ret.itemName2 + ' ' + ret.itemName3;
+    },
+    saveInfo: function () {
+      console.log(this.myinfo);
+    }
+  },
+  data: {
+    myinfo: MyInfo,
+    showSex: false,
+    showArea: false,
+    district: window.YDUI_DISTRICT,
+    sexlist: [
+      {
+          label: '男',
+          callback: function () {
+              console.log(this.label);
+              vm.myinfo.sex = this.label;
+          }
+      },
+      {
+          label: '女',
+          callback: function () {
+              console.log(this.label);
+              vm.myinfo.sex = this.label;
+          }
+      },
+      {
+          label: '保密',
+          callback: function () {
+              console.log(this.label);
+              vm.myinfo.sex = this.label;
+          }
+      },
+    ]
+  }
+});
+
+</script>

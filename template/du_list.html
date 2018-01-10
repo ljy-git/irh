@@ -1,0 +1,22 @@
+<div> 
+    <transition name="t3">
+        <div class="no_record" v-show="!list.length">没有符合条件的记录</div>
+    </transition>
+    <yd-infinitescroll :callback="loadList" ref="end">
+        <ul slot="list">
+            
+        	<slot v-for="(item,index) in list"
+        	name="item"
+        	:item_data="item"
+            :index_data="index">
+        	</slot>
+        </ul>
+
+        <!-- 数据全部加载完毕显示 -->
+        <span slot="doneTip">终结于第{{page}}页</span>
+
+        <!-- 加载中提示，不指定，将显示默认加载中图标 -->
+        <img slot="loadingTip" src="images/loading10.svg"/>
+
+    </yd-infinitescroll>
+</div>

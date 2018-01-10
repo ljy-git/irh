@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>iRH</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+    <link rel="stylesheet" href="css/ljy.css" media="screen">
+  </head>
+  <style>
+    .yd_select{direction: rtl;color: #666!important;}
+    .yd_select option{direction: ltr}
+    .yd-cell-right .yd-datetime-input, .yd-cell-right input[type=date], .yd-cell-right input[type=datetime-local], .yd-cell-right input[type=email], .yd-cell-right input[type=number]:not(.yd-spinner-input), .yd-cell-right input[type=password], .yd-cell-right input[type=tel], .yd-cell-right input[type=text], .yd-cell-right input[type=time], .yd-cell-right input[type=url]{text-align: right;}
+    .yd-cell-right .yd-datetime-input{text-align: right;justify-content: flex-end;}
+</style>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+                <du_header href="main.html" tit="我的信息">
+                    <a href="#" class="right">保存</a>
+                </du_header>
+
+              <div  class="layout_body scroll">
+                <div class="my_header1">
+                  <div class="pic" style="background-image: url(images/user.jpg);"></div>
+                  <h3>用户名</h3>
+                </div>
+                <div class="cut"></div>
+                <yd-cell-group style="margin-bottom:0.24rem;">
+                    <yd-cell-item>
+                        <span slot="left">昵称</span>
+                        <yd-input class="right" slot="right"  max="20" :show-clear-icon="false" v-model="userInfo.name"  placeholder="请输入" ></yd-input>
+                    </yd-cell-item>
+
+                    <yd-cell-item>
+                        <span slot="left">姓名</span>
+                        <yd-input class="right" slot="right"  max="4" regex="/^[\u4e00-\u9fa5]{2,4}$/" :show-clear-icon="false" v-model="userInfo.actualName"  placeholder="请输入" ref="ref_name"></yd-input>
+                    </yd-cell-item>
+
+                    <yd-cell-item  type="label" arrow>
+                        <span slot="left">性别</span>
+                        <select slot="right" v-model="userInfo.sex" class="yd_select">
+                            <option value="">请选择</option>
+                            <option value=2>男</option>
+                            <option value=1>女</option>
+                            <option value=0>保密</option>
+                        </select>
+                    </yd-cell-item>
+
+                    <yd-cell-item arrow>
+                        <span slot="left">生日</span>
+                        <yd-datetime type="date" v-model="userInfo.birthday" slot="right"></yd-datetime>
+                    </yd-cell-item>
+                    <div class="cut"></div>
+
+                    <yd-cell-item type="label">
+                        <span slot="left">手机号:</span>
+                        <yd-input class="right" slot="right" regex="mobile"  :show-clear-icon="false" v-model="userInfo.phone" max="11" placeholder="请输入手机号" ref="ref_phone"></yd-input>
+                    </yd-cell-item>
+                    
+                    <yd-cell-item arrow>
+                        <span slot="left">省市区:</span>
+                        <input class="right" slot="right" type="text" readonly  onfocus="this.blur()" placeholder="请选择省市区" @click.stop="show=!show" v-model="all_address" >
+                    </yd-cell-item>
+                    <yd-cell-item>
+                        <span slot="left">详细地址:</span>
+                        <yd-input class="right" slot="right" :show-clear-icon="false" v-model="userInfo.address"    placeholder="请输入详细地址" ref="ref_address"></yd-input>
+                    </yd-cell-item>
+                </yd-cell-group> 
+                  
+                  
+              </div>
+          </section>
+          <!-- 地址列表弹窗 -->
+          <yd-cityselect v-model="show" :callback="result" :items="district" ></yd-cityselect>
+        </div>
+    </body>
+</html>
+<script src="plugins/pc_city.js?v=297872a375"></script>
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="plugins/iconfont.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {},
+  methods:{
+    result: function (ret) {
+        this.all_address = ret.itemName1 + ' ' + ret.itemName2 + ' ' + ret.itemName3;
+        // 选中地址 code
+        this.userInfo.provinceCode=ret.itemValue1;
+        this.userInfo.cityCode=ret.itemValue2;
+        this.userInfo.districtCode=ret.itemValue3;
+    },
+  },
+  data: {
+    district: district, // 地址库数据源
+    show:false, // 地址列表弹窗
+    userInfo:{name:'',actualName:"",phone:"",sex:"",birthday:"",provinceCode:"",cityCode:"",districtCode:"",address:"",datetime4:""},
+    all_address:"", // dom结构显示的省市区地址 拼接字符串
+    datetime4:""
+
+  }
+});
+   
+</script>

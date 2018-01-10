@@ -1,0 +1,47 @@
+#app > * {
+  display: none; }
+
+#app > .print_cont {
+  display: block !important; }
+  #app > .print_cont table {
+    width: 100%;
+    background-color: #fff; }
+  #app > .print_cont caption {
+    font-size: 18px;
+    line-height: 160%; }
+  #app > .print_cont th, #app > .print_cont td {
+    padding: .15rem .1rem;
+    vertical-align: top;
+    border-bottom: 1px #eee solid;
+    line-height: 140%; }
+  #app > .print_cont th {
+    text-align: right;
+    white-space: nowrap;
+    padding-right: 0.3rem; }
+  #app > .print_cont td {
+    color: #666; }
+  #app > .print_cont .cont th {
+    width: 2rem; }
+  #app > .print_cont .list {
+    width: 100%;
+    background-color: #fff;
+    border-top: 4px #ccc solid;
+    border-bottom: 4px #ccc solid;
+    margin: .2rem 0px; }
+    #app > .print_cont .list th, #app > .print_cont .list td {
+      text-align: left; }
+    #app > .print_cont .list th {
+      border-bottom: 1px #ccc solid; }
+    #app > .print_cont .list .pic {
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-right: .2rem; }
+    #app > .print_cont .list li {
+      padding: .1rem;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: flex;
+      border-bottom: 1px #eee solid;
+      margin-bottom: .1rem; }

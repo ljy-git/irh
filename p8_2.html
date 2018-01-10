@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>iRH</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+    <link rel="stylesheet" href="css/ljy.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+                <du_header href="main.html" tit="健康自诊">
+                    <a href="#" class="right">完成</a>
+                </du_header>
+
+              <div  class="layout_body scroll p8_2">
+                  <div class="cut"></div>
+                  <div class="cell1 ">
+                    <div class="tit">
+                      <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-wo-jiankangriji"></use>
+                      </svg>
+                       可能原因
+                    </div>
+                    <div class="txt">你的症状可能是流行感冒，流行感冒（简称流感）是流感病毒引起的急性呼吸道感染。你的症状可能是流行感冒，流行感冒（简称流感）是流感病毒引起的急性呼吸道感染</div>
+                  </div>
+                  <div class="cut"></div>
+                  <div class="cell2">
+                    <div class="left"><img src="images/p8_2.png" alt=""></div>
+                    <div class="right">
+                      <div class="tit">就医建议</div>
+                      <div class="txt">卧床休息，多饮水，给予流质或半流质饮食，必要时及时就诊</div>
+                    </div>
+                  </div>
+              </div>
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="plugins/iconfont.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {},
+  methods:{
+    
+  },
+  data: {
+    input1:"",
+    input2:"",
+  }
+});
+   
+</script>

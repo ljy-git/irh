@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>新增就医记录</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+              <nav class="layout_head" >
+                <a class="left" href="t8.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+                <h1>新增就医记录</h1>
+                <div class="right" @click="form_submit">保存 </div>
+              </nav>
+
+              <div class="layout_body scroll">
+                <div class="du_form">
+                  <div class="cut"></div>
+                  <dl class="wide" >
+                    <dd>
+                      <label>场所<sup>*</sup></label>
+                      <el-select v-model="my.iType" placeholder="请选择" >
+                          <el-option v-for="iii in iType_option" :key="iii.val" :label="iii.lab" :value="iii.val"> </el-option>
+                      </el-select>
+
+                    </dd>
+
+                    <dd>
+                      <label>病种<sup>*</sup></label>
+                      <du_demand_names :str_vals.sync='my.sDemandIds'></du_demand_names>
+                    </dd>
+
+                    <dd>
+                      <label>住院/门诊号<sup>*</sup></label>
+                      <yd-input v-model="my.sNO" placeholder="请输入住院/门诊号"></yd-input>
+                    </dd>
+
+                    <dd>
+                      <label>医院/诊所<sup>*</sup></label>
+                      <yd-input v-model="my.sHospital" placeholder="请输入医院/诊所名称"></yd-input>
+                    </dd>
+
+                    <dd>
+                      <label>科室</label>
+                      <yd-input v-model="my.sHospital" placeholder="请输入科室名称"></yd-input>
+                    </dd>
+
+                    <dd>
+                      <label>主治医生</label>
+                      <yd-input v-model="my.sMainDoctor" placeholder="请输入主治医生名称"></yd-input>
+                    </dd>
+
+                    <dd class="cut"></dd>
+
+                    <dd>
+                      <label>开始时间<sup>*</sup></label>
+                      <yd-datetime type="time" v-model="my.dStartDate"></yd-datetime>
+                    </dd>
+                                      
+                    <dd>
+                      <label>结束时间</label>
+                      <yd-datetime type="time" v-model="my.dEndDate"></yd-datetime>
+                    </dd>
+                    
+                    <dd class="cut"></dd>
+
+                    <dd>
+                      <label>状态<sup>*</sup></label>
+                      <el-select v-model="my.iType" placeholder="请选择" >
+                          <el-option v-for="iii in iType_option" :key="iii.val" :label="iii.lab" :value="iii.val"> </el-option>
+                      </el-select>
+                    </dd>
+
+                    <dd>
+                      <label>备注</label>
+                      <yd-input v-model="my.Remark" placeholder="请输入备注信息"></yd-input>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {
+    this.$root.loading(false);
+  },
+  methods:{
+    form_submit:function() {
+      post("SeeDoctor/EditMedicalRecord",this.my)
+      .then(
+
+          function (res) {
+              this.$dialog.toast({
+                mes: "新增成功",
+                icon: "success",
+                timeout: 2000,
+                callback:function () {
+                  window.location.href="t8.html";
+                }
+              });
+          }.bind(this)
+      );
+    }
+  },
+  data: {
+    iType_option:[
+      {lab:"住院",val:2},
+      {lab:"门诊",val:3}
+    ],
+    my:{
+        // "Id": getQS("PK_ID"),
+        "iType": null,
+        "sDemandIds": "",
+        "sDemandTxts": "",
+        "FK_FromID": "",
+        "sHospital": "",
+        "sMainDoctor": "",
+        
+        "dStartDate": MMD,
+        "dEndDate": MMD,
+        "sNo": "",
+    }
+  }
+});
+   
+</script>

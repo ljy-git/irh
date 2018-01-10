@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>健康日记</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+    <link rel="stylesheet" href="css/ljy.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+                <du_header href="main.html" tit="健康日记">
+                    <a href="#" class="right">保存</a>
+                </du_header>
+
+              <div  class="layout_body scroll"  v-cloak>
+                <div class="cut"></div>
+                <dl class="cell_list">
+                  <dd>
+                    <div class="left">作业项目</div>
+                    <div class="right">异常关闭</div>
+                  </dd>
+              
+                  <dd>
+                    <div class="left">测量时间</div>
+                    <div class="right">2015-08-17 13:12</div>
+                  </dd>
+                  <div class="cut"></div>
+              
+                  <dd>
+                    <div class="left">收缩压（高）</div>
+                    <div class="right">100</div>
+                  </dd>
+                  <dd>
+                    <div class="left">舒张压（低）</div>
+                    <div class="right">90</div>
+                  </dd>
+                  <dd>
+                    <div class="left">心率</div>
+                    <div class="right">90</div>
+                  </dd>
+                  <dd>
+                    <div class="left">测量设备</div>
+                    <div class="right">手臂</div>
+                  </dd>
+                </dl>
+                <div class="cut"></div>
+                <div class="texara">
+                  <h3>描述</h3>
+                  <div class="txt">身体一切正常，没问题！</div>
+                </div>
+              </div>
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {},
+  methods:{
+    
+  },
+  data: {
+    input1:"",
+    input2:"",
+  }
+});
+   
+</script>

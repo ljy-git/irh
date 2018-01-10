@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>编辑计划</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+              <nav class="layout_head" >
+                <a class="left" href="p7.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+                <h1>编辑计划</h1>
+                <div class="right" @click.native="form_submit">保存</div>
+              </nav>
+
+              <div class="layout_body scroll">
+                <div class="du_form">
+                  <div class="cut"></div>
+                  <dl class="wide" v-if="my.ProjectId">
+                    <dd>
+                      <label>作业项目<sup>*</sup></label>
+                      <du_project_id :change.sync='my.ProjectId' :pid="my.ProjectId"></du_project_id>
+                    </dd>
+
+                     <dd>
+                      <label>开始时间<sup>*</sup></label>
+                      <yd-datetime type="time" v-model="my.BeginTime"></yd-datetime>
+                    </dd>
+                                      
+                    <dd>
+                      <label>结束时间<sup>*</sup></label>
+                      <yd-datetime type="time" v-model="my.EndTime"></yd-datetime>
+                    </dd>
+                    
+                    <div class="cut"></div>                  
+                    <dd>
+                      <label>开始日期<sup>*</sup></label>
+                      <yd-datetime type="date" v-model="my.BeginDate"></yd-datetime>
+                    </dd>
+                                      
+                    <dd>
+                      <label>结束日期<sup>*</sup></label>
+                      <yd-datetime type="date" v-model="my.EndDate"></yd-datetime>
+                    </dd> 
+                    <div class="cut"></div>
+                    <dd>
+                      <label>关联病种</label>
+                      <du_demand_names :str_vals.sync='my.DemandIds'></du_demand_names>
+                    </dd>
+
+                    <dd>
+                      <label>备注</label>
+                      <yd-input v-model="my.Remark" placeholder="请输入备注信息"></yd-input>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+          </section>
+          
+          
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {
+    this.$root.loading(false);
+    get("/MyHomeWork/GetHomeWorkInfo",{workId:getQS("WorkId")})
+      .then(
+          function (res) {
+              this.my = res;
+          }.bind(this)
+      );
+  },
+  methods:{
+    form_submit:function() {
+      var _my = _.omit(this.my, ['ProjectName','FormCode', 'DemandNames', 'WriteCount']);
+      post("/MyHomeWork/EditHomeWorkPlan",_my)
+      .then(
+
+          function (res) {
+              this.$dialog.toast({
+                mes: "编辑作业成功",
+                icon: "success",
+                timeout: 2000,
+                callback:function () {
+                  window.location.href="p7.html";
+                }
+              });
+          }.bind(this)
+      );
+    }
+  },
+  data: {
+    my:{}
+  }
+});
+   
+</script>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name=viewport content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <title>病历</title>
+    <link rel="stylesheet" href="css/ydui.rem1.1.3.css">
+    <link rel="stylesheet" href="css/element-ui.css">
+    <link rel="stylesheet" href="css/common.css" media="screen">
+  </head>
+    <body>
+        <div id='loading'> <div class='line-scale-pulse-out'> <i></i><i></i><i></i><i></i><i></i> </div></div>
+
+        <div id="app" v-cloak>
+          <section class="layout sec1">
+              <nav class="layout_head" >
+                  <a class="left" href="t8.html"><i class='iconfont icon-nav_fanhui_baise'></i></a>
+                  <h1>病历</h1>
+                  <el-dropdown class="right" trigger="click" @command="dropH">
+                    <span class="el-dropdown-link">
+                      新增 <i class='iconfont icon-nav_xinzeng'></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item command="t8_7_1.html">门诊病历</el-dropdown-item>
+                      <el-dropdown-item command="p8_7_2.html">住院病历</el-dropdown-item>
+                      <el-dropdown-item command="p8_7_3.html">出院病历</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </nav>
+              
+
+              <div  class="layout_body scroll p30">
+                  <du_list_post
+                    url="CaseHistory/GetMedicalRecordDataList"
+                    :api_para="para"
+                    class="list_p7" name="就医记录列表" ref="list1">
+                      <li slot="item" slot-scope="props" @click="">
+                        <div class="tit">
+                          <h2>{{props.item_data.tName}}病历</h2>
+                        </div>
+                        <div class="cont">
+                          <p>病历原始号:{{ props.item_data.CheckDep }}</p>
+                          <p>医院/诊所:{{ props.item_data.Hospital }}</p>
+                          <p>科室:{{ props.item_data.CheckDep}}</p>
+                          <p class="tar">报告人:{{props.item_data.AttDoctor}}</p>
+                        </div>
+
+                        <div class="btns" v-if="!props.item_data.Archived">
+                          <a :href=" 't8_7_1.html?PK_ID='+props.item_data.PK_ID" class="btn_sm"><i class='iconfont icon-bianji'></i>编辑</a>
+                          <a class="btn_sm" @click="lock(props.item_data.PK_ID)"><i class='iconfont icon-label_zhishiku'></i>存档</a>
+                          <a href="#" class="btn_sm" @click="dele(props.item_data.PK_ID,props.item_data.RecordType)"><i class='iconfont icon-shanchu'></i>删除</a>
+                        </div>
+
+                        <div class="btns"  v-if="props.item_data.Archived">
+                          <a class="btn_sm" ><i class='iconfont icon-label_zhishiku'></i>查看已存档病历</a>
+                        </div>
+                        
+                      </li>
+                  </du_list_post>
+              </div>
+          </section>
+        </div>
+    </body>
+</html>
+
+<script src="plugins/vue2.5.9.js"></script>
+<script src="plugins/axios.min.js"></script>
+<script src="plugins/ydui1.1.3.js"></script>
+<script src="plugins/ydui.flexible.js"></script>
+<script src="plugins/ele2.0.8.js"></script>
+<script src="plugins/moment-with-locales.min.js"></script>
+<script src="plugins/lodash.min.js"></script>
+<script src="js/fetch.js"></script>
+<script src="js/common.js"></script>
+<script src="js/du.js"></script>
+<script>
+
+var vm = new Vue({
+  mixins: [mixin_common],
+  el: '#app',
+  mounted:function () {},
+  methods:{
+    // 右上角下拉小窗
+    dropH:function(url) {
+      window.location.href= url+"?id="+getQS("id");
+    },
+
+    // 归档
+    lock:function(id) {
+      var _this = this;
+      post( "CaseHistory/SetMedicalRecordDataArchived",{"id":id} )
+        .then(
+            this.$dialog.toast({
+              mes: "归档成功!",
+              icon: 'success',
+              timeout: 1000,
+              callback: function () {
+                _this.$refs.list1.init();
+              }
+            })
+        );
+    },
+
+    dele:function(id,typeId){
+      var _this = this;
+      post( "CaseHistory/Delete",{"id":id,"typeId":typeId} )
+      .then(
+          this.$dialog.toast({
+            mes: "删除成功!",
+            icon: 'success',
+            timeout: 1000,
+            callback: function () {
+              _this.$refs.list1.init();
+            }
+          })
+      );
+    }
+  },
+  data: {
+    current_tab:0,
+    search_key:"",
+    para:{
+      "recordId": getQS("id"),
+      "pageSize": "10"
+    }
+  }
+});
+   
+</script>

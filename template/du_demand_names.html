@@ -1,0 +1,10 @@
+<div>
+	<el-select v-model="arr_vals" multiple placeholder="请选择" @change="changeH">
+	  <el-option
+	    v-for="item in DemandName_option"
+	    :key="item.Pk_id"
+	    :label="item.Name"
+	    :value="item.Pk_id">
+	  </el-option>
+	</el-select>
+</div>
